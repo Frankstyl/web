@@ -57,12 +57,21 @@ func HelloTemplate(w http.ResponseWriter, r *http.Request) {
 
 }
 
+//DinamicPhat is used to response any request.
+func DinamicPhat(w http.ResponseWriter, r *http.Request) {
+	//we save the name's file requested
+	name := r.URL.Path[len("/home/"):]
+	fmt.Println(r.URL.Path)
+	w.Write([]byte(name))
+}
+
 func main() {
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/info", HelloTemplate)
 	mux.HandleFunc("/hello", HelloTemplate)
 	mux.HandleFunc("/about", HelloTemplate)
+	mux.HandleFunc("/home/", DinamicPhat)
 	server := &http.Server{
 		Addr:    ":8080",
 		Handler: mux,
